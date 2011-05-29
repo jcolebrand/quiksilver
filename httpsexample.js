@@ -6,8 +6,8 @@ var vhost = require('./vhost.js');
 
 /* declare the https server options, like the certificate files */
 var options = {
-  key: fs.readFileSync('privatekey.pem'), 
-  cert: fs.readFileSync('certificate.pem')
+  key: fs.readFileSync('./keys/privatekey.pem'), 
+  cert: fs.readFileSync('./keys/certificate.pem')
 };
 
 /* declare the launching of the server */
