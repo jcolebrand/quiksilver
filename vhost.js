@@ -1,46 +1,21 @@
-/*!
- * Connect - vhost
- * Copyright(c) 2010 Sencha Inc.
- * Copyright(c) 2011 TJ Holowaychuk
- * MIT Licensed
- */
+// https://gist.github.com/820042
+// Modified from "connect" to work nicely with "stack", "connect" or the regular "http" server.
+// Pass a regular 'handler' function instead of a 'server' instance.
 
-/**
- * Setup vhost for the given `hostname` and `server`.
- *
- * Examples:
- *
- *     connect(
- *       connect.vhost('foo.com',
- *         connect.createServer(...middleware...)
- *       ),
- *       connect.vhost('bar.com',
- *         connect.createServer(...middleware...)
- *       )
- *     );
- *
- * @param {String} hostname
- * @param {Server} server
- * @return {Function}
- * @api public
- */
+module.exports = function vhost(hostname, handler){
+  var regexp = new RegExp('^' + hostname.replace(/\./g, '\\.').replace(/[*]/g, '(.*?)') + '$');
 
-module.exports = function vhost(hostname, server){
-  if (!hostname) throw new Error('vhost hostname required');
-  if (!server) throw new Error('vhost server required');
-  var regexp = new RegExp('^' + hostname.replace(/[*]/g, '(.*?)') + '$');
-  /* If the server already has a vhost on it, add this to that instance */
-  if (server.onvhost) server.onvhost(hostname);
-  return function vhost(req, res){
-    if (!req.headers.host) {
-      /* If there was no headers.host on the request then there's no way we're going to get something routable, yeah? */
-      return;
-    }
+  return function vhost(req, res, next){
+    // In the case of a regular 'http.Server', there will be no 'next', so define one just in case
+    next = next || function() { res.writeHead(404); res.end("Not Found"); };
+    // An HTTP/1.0 request won't have a 'Host' header...
+    if (!req.headers.host) return next();
     var host = req.headers.host.split(':')[0];
-    /* make sure that future requests get routed here, yes? */
     if (req.subdomains = regexp.exec(host)) {
-      req.subdomains = req.subdomains[0].split('.').slice(0, -1);
-      server.emit("request", req, res);
-    } 
+      req.subdomains = req.subdomains.slice(1);
+      handler.call(this, req, res, next);
+    } else {
+      next();
+    }
   };
 };
