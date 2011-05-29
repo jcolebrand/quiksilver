@@ -20,3 +20,7 @@ Regarding the certificate public/private pair.
 ----------------
 Guess what, it was self generated. I can generate another one. You can be a douche and goof with them. This is a learning repo. I don't give two shits. When I need them I'll get a signed public cert and store it in a safe location (not a publicly available DVCS repo)
 
+But I really want to try your code and see how it works!!!
+================
+
+Ok, then run `node httpsexample.js` and cross your fingers (and hope I haven't broken something)
