@@ -1,5 +1,5 @@
 exports.route = function(router){
-  router.resource('/path/:a123', {
+  router.resource('/path/:a123/', {
     get : get
   });
 };
