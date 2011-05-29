@@ -12,4 +12,4 @@ var options = {
 
 /* declare the launching of the server */
 var server = https.createServer(options,resource(main));
-server.listen(443,'jcolebrand.com');
+server.listen(443);
