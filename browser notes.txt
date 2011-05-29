@@ -1,3 +1,0 @@
-if (console === void 0 || console.log === void 0) {
-     window.console = { "log": function() {} };
-}
