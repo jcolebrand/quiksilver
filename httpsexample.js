@@ -11,5 +11,5 @@ var options = {
 };
 
 /* declare the launching of the server */
-var server = https.createServer(options,vhost('jcolebrand.com',resource(main)));
-server.listen(443);
+var server = https.createServer(options,resource(main));
+server.listen(443,'jcolebrand.com');
