@@ -48,6 +48,7 @@ module.exports = function resource(fn) {
       obj._keys = [];
       obj._path = normalizePath(path, obj._keys);
       paths.push(obj);
+      console.log(paths);
     }
   };
   fn.call(this, app);
@@ -91,7 +92,6 @@ module.exports = function resource(fn) {
       var path = paths[i]._path;
       var keys = paths[i]._keys;
       var matches = path.exec(pathname);
-console.log(matches);
       if (matches != null ) {
         // There is a match. Match parameters
         req.params = [];
